@@ -6,16 +6,27 @@ DISTRO_TYPE="${1:-minimal}"
 
 chmod +x /usr/local/bin/gem-camera-setup
 
+# Shipped by the t3-gem-o1 overlay only
+if [[ -f /usr/local/bin/gem-gpu-run ]]; then
+    chmod +x /usr/local/bin/gem-gpu-run /usr/local/bin/gem-gpu-info
+fi
+
 if [[ "$DISTRO_TYPE" == "desktop" ]]; then
     chmod +x /usr/local/bin/set-system-keyboard-layout
     chmod +x /usr/local/bin/set-system-language
     chmod +x /usr/local/bin/xfce4-popup-applicationsmenu
 fi
 
+if [[ "$DISTRO_TYPE" == "wayland-desktop" ]]; then
+    chmod 0755 /usr/local/bin/start-t3-plasma-wayland
+fi
+
 if [[ "$DISTRO_TYPE" == "kiosk" ]]; then
     if [[ -f /usr/local/bin/kiosk ]]; then
         chmod +x /usr/local/bin/kiosk
     fi
+
+    chmod +x /home/gemstone/bin/kiosk /home/gemstone/bin/kiosk-session
 fi
 
 chown -R gemstone:gemstone /home/gemstone
